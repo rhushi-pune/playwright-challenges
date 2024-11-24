@@ -49,6 +49,7 @@ test('Forgot password @c3', async ({ page }) => {
 test('Login and logout @c4', async ({ page }) => {
   await page.goto('/');
   await page.locator(`//*[@href='/challenge4.html']`).click();
+  await page.waitForLoadState('networkidle');
   await page.locator('#email').fill(`test@example.com`);
   await page.locator('#password').fill(`password`);
   await page.locator('#submitButton').click();
