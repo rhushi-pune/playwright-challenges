@@ -10,9 +10,12 @@ test('Login multiple times sucessfully @c1', async ({ page }) => {
     await page.locator('#email').fill(`test${i}@example.com`);
     await page.locator('#password').fill(`password${i}`);
     await page.locator('#submitButton').click();
-    await expect(page.locator(`#successMessage`)).toContainText('Successfully submitted!');
-    await expect(page.locator(`#successMessage`)).toContainText(`Email: test${i}@example.com`);
-    await expect(page.locator(`#successMessage`)).toContainText(`Password: password${i}`);
+    let successLocator= page.locator(`#successMessage`)
+    await successLocator.waitFor({timeout:5000}) // waiting for success message locator to appear
+    await expect(successLocator).toContainText('Successfully submitted!');
+    await expect(successLocator).toContainText(`Email: test${i}@example.com`);
+    await expect(successLocator).toContainText(`Password: password${i}`);
+    await successLocator.waitFor({state:'hidden',timeout:5000}) // waiting for success message locator to disappear
   }
 });
 
