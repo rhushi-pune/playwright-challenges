@@ -36,10 +36,13 @@ test('Forgot password @c3', async ({ page }) => {
   await page.goto('/');
   await page.locator(`//*[@href='/challenge3.html']`).click();
   await page.getByRole('button', { name: 'Forgot Password?' }).click();
+  let resetButtonLocator = page.getByRole('button', { name: 'Reset Password' });
+  await resetButtonLocator.waitFor({timeout:2000}) // wait for visibility of reset button so after email can be filled
   await page.locator('#email').fill('test@example.com');
-  await page.getByRole('button', { name: 'Reset Password' }).click();
+  await resetButtonLocator.click();
   await expect(page.getByRole('heading', { name: 'Success!' })).toBeVisible();
   await expect(page.locator('#mainContent')).toContainText('Password reset link sent!');
+  await expect(page.getByRole("button",{name : 'Close'})).toBeVisible();
 });
 
 //Fix the login test. Hint: There is a global variable that you can use to check if the app is in ready state
