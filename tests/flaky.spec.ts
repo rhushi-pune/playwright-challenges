@@ -25,7 +25,8 @@ test('Login animated form and logout sucessfully @c2', async ({ page }) => {
   await page.locator(`//*[@href='/challenge2.html']`).click();
   await page.locator('#email').fill(`test1@example.com`);
   await page.locator('#password').fill(`password1`);
-  await page.locator('#submitButton').click();
+  await page.locator('#submitButton').click({timeout:10000}); // increased timeout to autowait for stability
+  await page.waitForTimeout(2050); // Menu items are delayed loading need to wait for it to load
   await page.locator('#menuButton').click();
   await page.locator('#logoutOption').click();
 });
